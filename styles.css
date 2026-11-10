@@ -1,0 +1,54 @@
+:root{--pink:#e0558f;--deep:#8a1048;--soft:#fdeaf3;--bg:#fff7fb;--ink:#2b1a24;--gold:#c9a25e;--r:16px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font:400 1rem/1.6 "Poppins",system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+h1,h2,h3,h4{margin:0}a{color:inherit}
+:focus-visible{outline:3px solid var(--deep);outline-offset:2px}
+.bar{background:var(--pink);color:#fff;text-align:center;font-size:.85rem;padding:.4rem 1rem}
+.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.7rem 1.4rem;background:var(--soft);border-bottom:1px solid #f4c6dc}
+.logo{display:flex;align-items:center;gap:.5rem;font:1.9rem "Abril Fatface",Georgia,serif;text-decoration:none}
+.logo b{font-weight:400;margin-left:.15rem}.logo img{width:42px;height:42px;border-radius:50%;border:3px solid var(--pink)}
+nav{display:flex;gap:.4rem}nav a{text-decoration:none;font-weight:500;padding:.4rem 1rem;border-radius:999px}
+nav a.on,nav a:hover{background:var(--pink);color:#fff}
+.icons{display:flex;gap:.8rem;align-items:center}.icons a,.icons button{background:none;border:0;font-size:1.4rem;cursor:pointer;position:relative;text-decoration:none}
+#cartCount{position:absolute;top:-6px;right:-8px;background:var(--pink);color:#fff;border-radius:50%;font:600 .7rem/1 "Poppins";padding:.25rem .4rem}
+.burger{display:none;background:none;border:2px solid var(--pink);border-radius:8px;padding:.3rem .7rem;font:inherit;color:var(--deep)}
+.hero{min-height:500px;display:flex;align-items:center;justify-content:center;padding:2.5rem 1.2rem;text-align:center;background:linear-gradient(#ffffff59,#ffffff59),url(img/banner.jpg) center/cover,url(img/banner.jpeg) center/cover,url(img/banner.png) center/cover,linear-gradient(120deg,#f9b8d4,#fdeaf3)}
+.hero-text{max-width:560px}
+.s1{font:italic 500 clamp(1.6rem,4vw,2.4rem) "Playfair Display",serif;margin:0}
+.hero h1{font:clamp(3rem,9vw,5.5rem) "Playball",cursive;color:var(--deep);animation:rise .8s both;margin:.2rem 0 .8rem;line-height:1.1}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}}
+.tag{font-weight:500;letter-spacing:.03em;margin:0 0 1.2rem}.tag em{color:var(--deep)}
+.btn{display:inline-block;background:var(--pink);color:#fff;border:2px solid var(--pink);padding:.7rem 1.6rem;border-radius:999px;font:500 1rem "Poppins";text-decoration:none;cursor:pointer;transition:transform .15s,background .15s}
+.btn:hover{background:var(--deep);border-color:var(--deep);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--deep)}.btn.ghost:hover{color:#fff}.btn.dark{background:var(--deep);border-color:var(--deep)}
+.btn.small{padding:.4rem 1.1rem;font-size:.9rem}[hidden]{display:none!important}
+.sec{padding:2.5rem 1.2rem;max-width:1150px;margin:auto}
+.ttl{font:italic 500 clamp(1.6rem,4vw,2.2rem) "Playfair Display",serif;text-align:center;margin-bottom:1.5rem}
+.ttl::before,.ttl::after{content:"♡";color:var(--pink);margin:0 .7rem}
+.lead{text-align:center;margin:0 auto 1.2rem;max-width:620px}
+.cats{display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:center}
+.cat{display:grid;gap:.4rem;justify-items:center;background:none;border:0;font:500 .9rem "Poppins";color:var(--ink);cursor:pointer}
+.cat span{width:76px;height:76px;border-radius:50%;background:#f9cfe2;display:grid;place-items:center;font-size:2rem;transition:transform .15s}
+.cat:hover span,.cat.on span{background:var(--pink);transform:scale(1.07)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.2rem;margin-top:1rem}
+.card{background:#fff;border:1px solid #f4c6dc;border-radius:var(--r);overflow:hidden;text-align:center}
+.ph{position:relative;aspect-ratio:3/4;background:linear-gradient(160deg,var(--pink),#f9b8d4);display:grid;place-items:center}
+.ph::before{content:attr(data-i);font:5rem "Abril Fatface";color:#fff8}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fav{position:absolute;top:.6rem;right:.6rem;width:36px;height:36px;border-radius:50%;border:0;background:#fff;color:var(--pink);font-size:1.2rem;cursor:pointer;z-index:1}.fav.on{color:var(--deep)}
+.info{padding:.9rem;display:grid;gap:.35rem;justify-items:center}.info h3{font:500 .95rem "Poppins"}.info strong{color:var(--deep);font-size:1.1rem}
+.perks{display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:center;background:#f9d9e8;border-radius:var(--r);padding:1.2rem;margin:0 1.2rem;font-weight:500}
+.row{display:flex;flex-wrap:wrap;gap:1rem;align-items:end;justify-content:center;margin-bottom:1rem}
+.stack{display:grid;gap:1rem;max-width:480px;margin:0 auto 1rem}
+.sec>.btn.ghost{display:table;margin:0 auto}
+label{display:grid;gap:.25rem;font-weight:500}
+input,select,textarea{font:inherit;padding:.6rem;border:2px solid #f4c6dc;border-radius:10px;background:#fff;color:var(--ink)}
+.note{background:#fff;border:1px solid #f4c6dc;border-radius:var(--r);padding:.7rem 1rem;margin:.5rem 0;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:space-between}.note p{flex-basis:100%;margin:0}
+.foot{margin-top:2.5rem;background:var(--pink);color:#fff;padding:2.2rem 1.4rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.foot a{display:block;text-decoration:none;opacity:.95}.foot a:hover{text-decoration:underline}.foot h4{margin-bottom:.5rem}
+.flogo{font:2.2rem "Abril Fatface"}.flogo b{font-weight:400;margin-left:.2rem}
+.sub{display:flex;gap:.4rem}.sub input{flex:1;min-width:0}.copy{grid-column:1/-1;text-align:center;margin:0;background:#fdeaf3;color:var(--ink);padding:.7rem;margin:0 -1.4rem -2.2rem}
+dialog{border:2px solid var(--pink);border-radius:var(--r);padding:1.5rem;max-width:440px;width:90%}dialog::backdrop{background:#0006}
+@media(max-width:800px){.burger{display:block}nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--soft);padding:1rem}nav.open{display:flex}.top{position:relative}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}}

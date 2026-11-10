@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sofía Store | Donde la tendencia cobra vida</title>
+<meta name="description" content="Tienda de ropa en Barranquilla. Envíos nacionales, compra segura y asesoría personalizada.">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Playball&family=Playfair+Display:ital,wght@1,500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="bar" id="barText">✨ Envíos a todo el país | Paga contra entrega | Compra segura ✨</div>
+<header class="top">
+  <a class="logo" href="#inicio"><img src="img/logo.png" alt="" onerror="this.remove()">Sofía<b>Store</b></a>
+  <button class="burger" aria-label="Abrir menú" aria-expanded="false">Menú</button>
+  <nav id="nav">
+    <a class="on" href="#inicio">Inicio</a><a href="#catalogo">Tienda</a><a href="#estilista">Asesor de estilo</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
+  </nav>
+  <div class="icons">
+    <a href="admin.html" aria-label="Administrador">👤</a>
+    <button id="cartBtn" aria-label="Abrir carrito">🛍️<span id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main>
+<section id="inicio" class="hero">
+  <div class="hero-text">
+    <p class="s1" id="heroTop">¡Celebremos el</p>
+    <h1 id="heroTitle">Día de la Mujer!</h1>
+    <p class="tag" id="heroTag">ERES PODER, ESTILO E <em>INSPIRACIÓN</em></p>
+    <a class="btn" id="heroBtn" href="#catalogo">Comprar ahora →</a>
+  </div>
+</section>
+
+<section class="sec">
+  <h2 class="ttl">Nuestras Categorías</h2>
+  <div class="cats" id="cats"></div>
+</section>
+
+<section id="catalogo" class="sec">
+  <h2 class="ttl">Productos Destacados</h2>
+  <div class="grid" id="grid"></div>
+</section>
+
+<div class="perks">
+  <span>🚚 Envíos nacionales y seguros</span><span>✅ Compra segura</span><span>💳 Paga contra entrega</span><span>💗 Atención personalizada</span>
+</div>
+
+<section id="estilista" class="sec">
+  <h2 class="ttl">Asesor de estilo</h2>
+  <p class="lead">Dinos para qué lo necesitas y te sugerimos prendas del catálogo.</p>
+  <form id="styleForm" class="row">
+    <label>Ocasión
+      <select id="occ"><option value="casual">Casual</option><option value="playa">Playa</option><option value="elegante">Salida elegante</option></select>
+    </label>
+    <label>Presupuesto máximo
+      <select id="bud"><option value="60000">Hasta $60.000</option><option value="100000">Hasta $100.000</option><option value="999999">Sin límite</option></select>
+    </label>
+    <button class="btn" type="submit">Recomiéndame</button>
+  </form>
+  <div id="recs" class="grid" aria-live="polite"></div>
+</section>
+
+<section id="nosotros" class="sec about">
+  <h2 class="ttl">Nosotros</h2>
+  <p class="lead">Somos Sofía Store, una marca de Barranquilla que lleva moda con color y actitud a toda Colombia. Atendemos tus pedidos y te asesoramos para que encuentres tu look.</p>
+</section>
+
+<section id="contacto" class="sec">
+  <h2 class="ttl">Escríbenos</h2>
+  <form id="contactForm" class="stack" novalidate>
+    <label>Nombre <input id="cName" required minlength="2" autocomplete="name"></label>
+    <label>Correo o WhatsApp <input id="cContact" required autocomplete="email"></label>
+    <label>Mensaje <textarea id="cMsg" rows="4" required minlength="5"></textarea></label>
+    <button class="btn" type="submit">Enviar mensaje</button>
+    <p id="cStatus" role="status"></p>
+  </form>
+  <a class="btn ghost" id="wa" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+</section>
+</main>
+
+<footer class="foot">
+  <div><div class="flogo">Sofía<b>Store</b></div><p>Donde la tendencia cobra vida</p></div>
+  <div><h4>Enlaces útiles</h4><a href="#inicio">Inicio</a><a href="#catalogo">Tienda</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></div>
+  <div><h4>Síguenos en</h4><a href="https://instagram.com/sofiastore_bq" target="_blank" rel="noopener">Instagram @sofiastore_bq</a></div>
+  <div><h4>Recibe nuestras ofertas</h4>
+    <form id="subForm" class="sub"><input id="subMail" type="email" placeholder="Tu correo electrónico" aria-label="Tu correo electrónico" required><button class="btn dark small" type="submit">Suscribirme</button></form>
+    <p id="subStatus" role="status"></p></div>
+  <p class="copy">© <span id="yr"></span> Sofía Store. Todos los derechos reservados.</p>
+</footer>
+
+<dialog id="cartDlg">
+  <h3>Tu carrito</h3><div id="cartList"></div><p id="cartTotal"></p>
+  <a class="btn" id="cartWa" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+  <button class="btn ghost" id="cartClose">Cerrar</button>
+</dialog>
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

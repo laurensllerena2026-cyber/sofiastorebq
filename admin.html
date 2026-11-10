@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin | Sofía Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+<header class="top"><a class="logo" href="index.html">Sofía<b>Store</b></a><nav style="display:flex"><a href="index.html">Volver a la tienda</a></nav></header>
+<main class="sec">
+<section id="login" class="stack">
+  <h2>Ingreso admin</h2>
+  <label>Usuario <input id="u" autocomplete="username"></label>
+  <label>Contraseña <input id="p" type="password" autocomplete="current-password"></label>
+  <button class="btn" id="go">Entrar</button><p id="lErr" role="alert"></p>
+</section>
+<section id="panel" hidden>
+  <h2>Mensajes recibidos</h2><div id="msgs"></div>
+  <h2>Productos</h2>
+  <form id="add" class="row">
+    <label>Nombre <input id="n" required></label>
+    <label>Precio <input id="pr" type="number" min="0" required></label>
+    <label>Categoría <input id="ca" required></label>
+    <label>Foto (ej: img/vestido3.jpg) <input id="im"></label>
+    <label>Ocasión <select id="oc"><option>fiesta</option><option>casual</option><option>playa</option><option>elegante</option></select></label>
+    <button class="btn" type="submit">Agregar</button>
+  </form>
+  <div id="plist"></div>
+  <button class="btn ghost" id="out">Cerrar sesión</button>
+</section>
+</main>
+<script src="data.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+function show(){const ok=sessionStorage.getItem("ss_admin")==="1";$("login").hidden=ok;$("panel").hidden=!ok;if(ok)draw()}
+$("go").onclick=()=>{if($("u").value===ADMIN_USER&&$("p").value===ADMIN_PASS){sessionStorage.setItem("ss_admin","1");show()}else $("lErr").textContent="Usuario o contraseña incorrectos."};
+$("out").onclick=()=>{sessionStorage.removeItem("ss_admin");show()};
+function draw(){
+  const m=getMsgs();
+  $("msgs").innerHTML=m.length?m.map(x=>`<div class="note"><b>${esc(x.name)}</b> (${esc(x.contact)}) · ${esc(x.date)}<p>${esc(x.msg)}</p></div>`).join(""):"<p>Aún no hay mensajes.</p>";
+  $("plist").innerHTML=getProducts().map(p=>`<div class="note"><b>${esc(p.name)}</b> · ${money(p.price)} · ${esc(p.cat)} <button class="btn small" data-d="${p.id}">Eliminar</button></div>`).join("");
+}
+$("plist").onclick=e=>{const d=e.target.dataset.d;if(d){saveProducts(getProducts().filter(p=>p.id!=d));draw()}};
+$("add").onsubmit=e=>{e.preventDefault();const l=getProducts();
+  l.push({id:Date.now(),name:$("n").value,price:+$("pr").value,cat:$("ca").value,tags:[$("oc").value],img:$("im").value||"",desc:"Nuevo en la tienda."});
+  saveProducts(l);e.target.reset();draw()};
+show();
+</script></body></html>
