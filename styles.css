@@ -10,7 +10,9 @@ h1,h2,h3,h4{margin:0}a{color:inherit}
 nav{display:flex;gap:.4rem}nav a{text-decoration:none;font-weight:500;padding:.4rem 1rem;border-radius:999px}
 nav a.on,nav a:hover{background:var(--pink);color:#fff}
 .icons{display:flex;gap:.8rem;align-items:center}.icons a,.icons button{background:none;border:0;font-size:1.4rem;cursor:pointer;position:relative;text-decoration:none}
-#cartCount{position:absolute;top:-6px;right:-8px;background:var(--pink);color:#fff;border-radius:50%;font:600 .7rem/1 "Poppins";padding:.25rem .4rem}
+.empty{grid-column:1/-1;text-align:center;margin:.5rem 0}
+#favLink{color:var(--deep)}
+#cartCount,#favCount{position:absolute;top:-6px;right:-8px;background:var(--pink);color:#fff;border-radius:50%;font:600 .7rem/1 "Poppins";padding:.25rem .4rem}
 .burger{display:none;background:none;border:2px solid var(--pink);border-radius:8px;padding:.3rem .7rem;font:inherit;color:var(--deep)}
 .hero{min-height:500px;display:flex;align-items:center;justify-content:center;padding:2.5rem 1.2rem;text-align:center;background:linear-gradient(#ffffff59,#ffffff59),url(img/banner.jpg) center/cover,url(img/banner.jpeg) center/cover,url(img/banner.png) center/cover,linear-gradient(120deg,#f9b8d4,#fdeaf3)}
 .hero-text{max-width:560px}
@@ -26,6 +28,12 @@ nav a.on,nav a:hover{background:var(--pink);color:#fff}
 .ttl{font:italic 500 clamp(1.6rem,4vw,2.2rem) "Playfair Display",serif;text-align:center;margin-bottom:1.5rem}
 .ttl::before,.ttl::after{content:"♡";color:var(--pink);margin:0 .7rem}
 .lead{text-align:center;margin:0 auto 1.2rem;max-width:620px}
+.about{background:#f4a6c6;padding:3.5rem 1.2rem}
+.about-inner{max-width:1150px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center}
+.about .ttl{text-align:left;margin-bottom:1rem}.about .ttl::before{display:none}.about .ttl::after{color:var(--deep)}
+.about .lead{text-align:left;margin:0 0 1.2rem;max-width:none}
+.about-points{list-style:none;margin:0;padding:0;display:grid;gap:.4rem;font-weight:500}
+.about-img video{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#000;border-radius:var(--r);border:4px solid #fff;box-shadow:0 10px 24px #8a104833}
 .cats{display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:center}
 .cat{display:grid;gap:.4rem;justify-items:center;background:none;border:0;font:500 .9rem "Poppins";color:var(--ink);cursor:pointer}
 .cat span{width:76px;height:76px;border-radius:50%;background:#f9cfe2;display:grid;place-items:center;font-size:2rem;transition:transform .15s}
@@ -50,5 +58,5 @@ input,select,textarea{font:inherit;padding:.6rem;border:2px solid #f4c6dc;border
 .flogo{font:2.2rem "Abril Fatface"}.flogo b{font-weight:400;margin-left:.2rem}
 .sub{display:flex;gap:.4rem}.sub input{flex:1;min-width:0}.copy{grid-column:1/-1;text-align:center;margin:0;background:#fdeaf3;color:var(--ink);padding:.7rem;margin:0 -1.4rem -2.2rem}
 dialog{border:2px solid var(--pink);border-radius:var(--r);padding:1.5rem;max-width:440px;width:90%}dialog::backdrop{background:#0006}
-@media(max-width:800px){.burger{display:block}nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--soft);padding:1rem}nav.open{display:flex}.top{position:relative}}
+@media(max-width:800px){.about-inner{grid-template-columns:1fr;gap:1.5rem}.about .ttl,.about .lead{text-align:center}.about .ttl::before{display:inline}.about-points{justify-items:center}.burger{display:block}nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--soft);padding:1rem}nav.open{display:flex}.top{position:relative}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}}

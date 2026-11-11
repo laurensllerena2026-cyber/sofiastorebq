@@ -7,6 +7,7 @@ $t("barText",SITE.barra);$t("heroTop",SITE.heroArriba);$t("heroTitle",SITE.heroT
 const grid=document.getElementById("grid"),cats=document.getElementById("cats");
 let current="Todos",favs=new Set(),cart=[];
 try{cart=JSON.parse(localStorage.getItem("ss_cart"))||[]}catch(e){}
+try{favs=new Set(JSON.parse(localStorage.getItem("ss_favs"))||[])}catch(e){}
 const CATS=[["Todos","🏷️"],["Ropa","👗"],["Zapatos","👠"],["Bolsos","👜"]];
 function card(p){
   return `<article class="card"><div class="ph" data-i="${esc(p.name[0])}"><img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" data-base="${esc(p.img.replace(/(\.[a-z0-9]+)+$/i,""))}" data-n="0" onerror="nx(this)">
@@ -17,11 +18,19 @@ function card(p){
 function renderCats(){cats.innerHTML=CATS.map(([c,i])=>`<button class="cat ${c===current?"on":""}" data-c="${c}"><span>${i}</span>${c}</button>`).join("")}
 function renderCatalog(){grid.innerHTML=getProducts().filter(p=>current==="Todos"||p.cat===current).map(card).join("")||"<p>Pronto tendremos prendas en esta categoría.</p>";renderCats()}
 renderCatalog();
+// Favoritos (se guardan en el navegador de cada persona)
+const favGrid=document.getElementById("favGrid");
+function renderFavs(){
+  const l=getProducts().filter(p=>favs.has(p.id));
+  favGrid.innerHTML=l.length?l.map(card).join(""):`<p class="empty">Aún no tienes favoritos. Toca el ♡ de cualquier producto y quedará guardado aquí.</p>`;
+  document.getElementById("favCount").textContent=l.length;
+}
+renderFavs();
 document.addEventListener("click",e=>{
   const c=e.target.closest("[data-c]"),a=e.target.closest("[data-add]"),f=e.target.closest("[data-f]");
   if(c){current=c.dataset.c;renderCatalog();document.getElementById("catalogo").scrollIntoView()}
   if(a){const p=getProducts().find(x=>x.id==a.dataset.add);if(p){cart.push(p);saveCart();a.textContent="¡Añadido!";setTimeout(()=>a.textContent="Añadir al carrito",1200)}}
-  if(f){const id=+f.dataset.f;favs.has(id)?favs.delete(id):favs.add(id);document.querySelectorAll(`[data-f="${id}"]`).forEach(b=>{b.classList.toggle("on",favs.has(id));b.textContent=favs.has(id)?"♥":"♡"})}
+  if(f){const id=+f.dataset.f;favs.has(id)?favs.delete(id):favs.add(id);document.querySelectorAll(`[data-f="${id}"]`).forEach(b=>{b.classList.toggle("on",favs.has(id));b.textContent=favs.has(id)?"♥":"♡"});try{localStorage.setItem("ss_favs",JSON.stringify([...favs]))}catch(err){}renderFavs()}
 });
 
 // Carrito
@@ -43,12 +52,13 @@ drawCart();
 // Asesor de estilo
 document.getElementById("styleForm").addEventListener("submit",e=>{
   e.preventDefault();
-  const occ=document.getElementById("occ").value,max=+document.getElementById("bud").value;
-  const r=getProducts().filter(p=>p.tags.includes(occ)&&p.price<=max).slice(0,4);
-  document.getElementById("recs").innerHTML=r.length?r.map(card).join(""):`<p>No encontramos prendas con ese presupuesto. Prueba subirlo un poco o escríbenos y te ayudamos.</p>`;
+  const TIPOS={prenda:"Ropa",bolso:"Bolsos",zapato:"Zapatos"};
+  const occ=document.getElementById("occ").value,cat=TIPOS[document.getElementById("tipo").value];
+  const r=getProducts().filter(p=>p.tags.includes(occ)&&p.cat===cat);
+  document.getElementById("recs").innerHTML=r.length?r.map(card).join(""):`<p class="empty">Todavía no tenemos esa combinación en el catálogo. Prueba otra ocasión o escríbenos y te ayudamos.</p>`;
 });
 
-// Contacto y suscripción
+// Contacto
 function guardar(m){const l=getMsgs();l.unshift(m);saveMsgs(l);if(FORM_URL)return fetch(FORM_URL,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(m)})}
 const form=document.getElementById("contactForm"),st=document.getElementById("cStatus");
 form.addEventListener("submit",async e=>{
@@ -57,11 +67,6 @@ form.addEventListener("submit",async e=>{
   if(m.name.length<2||!m.contact||m.msg.length<5){st.textContent="Completa nombre, contacto y un mensaje de al menos 5 letras.";return}
   try{await guardar(m)}catch(err){st.textContent="Guardado, pero no se pudo enviar por correo. Escríbenos por WhatsApp.";return}
   st.textContent="¡Mensaje enviado! Te respondemos pronto.";form.reset();
-});
-document.getElementById("subForm").addEventListener("submit",async e=>{
-  e.preventDefault();const s=document.getElementById("subStatus");
-  try{await guardar({name:"Suscripción",contact:subMail.value,msg:"Quiere recibir ofertas",date:new Date().toLocaleString("es-CO")})}catch(err){}
-  s.textContent="¡Listo! Ya estás suscrita.";e.target.reset();
 });
 document.getElementById("wa").href=`https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent("Hola Sofía Store, quiero información")}`;
 

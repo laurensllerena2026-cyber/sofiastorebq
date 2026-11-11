@@ -17,6 +17,7 @@
     <a class="on" href="#inicio">Inicio</a><a href="#catalogo">Tienda</a><a href="#estilista">Asesor de estilo</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
   </nav>
   <div class="icons">
+    <a href="#favoritos" id="favLink" aria-label="Ver mis favoritos">♡<span id="favCount">0</span></a>
     <a href="admin.html" aria-label="Administrador">👤</a>
     <button id="cartBtn" aria-label="Abrir carrito">🛍️<span id="cartCount">0</span></button>
   </div>
@@ -42,28 +43,49 @@
   <div class="grid" id="grid"></div>
 </section>
 
+<section id="favoritos" class="sec">
+  <h2 class="ttl">Tus favoritos</h2>
+  <p class="lead">Toca el ♡ de cualquier producto para guardarlo aquí y pedirlo cuando quieras.</p>
+  <div class="grid" id="favGrid"></div>
+</section>
+
 <div class="perks">
   <span>🚚 Envíos nacionales y seguros</span><span>✅ Compra segura</span><span>💳 Paga contra entrega</span><span>💗 Atención personalizada</span>
 </div>
 
 <section id="estilista" class="sec">
   <h2 class="ttl">Asesor de estilo</h2>
-  <p class="lead">Dinos para qué lo necesitas y te sugerimos prendas del catálogo.</p>
+  <p class="lead">Elige la ocasión y qué buscas, y te sugerimos opciones del catálogo.</p>
   <form id="styleForm" class="row">
     <label>Ocasión
-      <select id="occ"><option value="casual">Casual</option><option value="playa">Playa</option><option value="elegante">Salida elegante</option></select>
+      <select id="occ"><option value="playa">Playa</option><option value="casual">Casual</option><option value="elegante">Elegante</option></select>
     </label>
-    <label>Presupuesto máximo
-      <select id="bud"><option value="60000">Hasta $60.000</option><option value="100000">Hasta $100.000</option><option value="999999">Sin límite</option></select>
+    <label>¿Qué buscas?
+      <select id="tipo"><option value="prenda">Prenda</option><option value="bolso">Bolso</option><option value="zapato">Zapato</option></select>
     </label>
     <button class="btn" type="submit">Recomiéndame</button>
   </form>
   <div id="recs" class="grid" aria-live="polite"></div>
 </section>
 
-<section id="nosotros" class="sec about">
-  <h2 class="ttl">Nosotros</h2>
-  <p class="lead">Somos Sofía Store, una marca de Barranquilla que lleva moda con color y actitud a toda Colombia. Atendemos tus pedidos y te asesoramos para que encuentres tu look.</p>
+<section id="nosotros" class="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <h2 class="ttl">Nosotros</h2>
+      <p class="lead">Somos Sofía Store, una marca de Barranquilla que lleva moda con color y actitud a toda Colombia. Atendemos tus pedidos y te asesoramos para que encuentres tu look.</p>
+      <ul class="about-points">
+        <li>♡ Moda con color y actitud</li>
+        <li>♡ Envíos a toda Colombia</li>
+        <li>♡ Asesoría para encontrar tu look</li>
+      </ul>
+    </div>
+    <div class="about-img">
+      <video autoplay muted loop playsinline preload="metadata" poster="img/banner.jpeg">
+        <source src="video/nosotros.mp4" type="video/mp4">
+        Tu navegador no puede reproducir este video.
+      </video>
+    </div>
+  </div>
 </section>
 
 <section id="contacto" class="sec">
@@ -83,9 +105,6 @@
   <div><div class="flogo">Sofía<b>Store</b></div><p>Donde la tendencia cobra vida</p></div>
   <div><h4>Enlaces útiles</h4><a href="#inicio">Inicio</a><a href="#catalogo">Tienda</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></div>
   <div><h4>Síguenos en</h4><a href="https://instagram.com/sofiastore_bq" target="_blank" rel="noopener">Instagram @sofiastore_bq</a></div>
-  <div><h4>Recibe nuestras ofertas</h4>
-    <form id="subForm" class="sub"><input id="subMail" type="email" placeholder="Tu correo electrónico" aria-label="Tu correo electrónico" required><button class="btn dark small" type="submit">Suscribirme</button></form>
-    <p id="subStatus" role="status"></p></div>
   <p class="copy">© <span id="yr"></span> Sofía Store. Todos los derechos reservados.</p>
 </footer>
 
