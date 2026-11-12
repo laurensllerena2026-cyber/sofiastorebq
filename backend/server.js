@@ -8,7 +8,17 @@ const jwt = require("jsonwebtoken");
 const { Product, Message, User } = require("./models");
 
 const app = express();
-app.use(cors());
+
+// CORS: solo estas páginas pueden usar el servidor desde el navegador
+const PERMITIDOS = [
+  "https://laurensllerena2026-cyber.github.io", // tu página publicada
+  "http://localhost:5173",                      // React en tu computador (más adelante)
+  "null"                                        // abrir index.html como archivo en tu computador
+];
+app.use(cors({
+  origin: (origin, cb) => cb(null, !origin || PERMITIDOS.includes(origin))
+}));
+
 app.use(express.json({ limit: "100kb" }));
 
 // Revisa que el token del admin sea válido
