@@ -1,8 +1,6 @@
 // ====== CONFIGURA AQUÍ ======
 const WHATSAPP = "573135816387";   // 
-const FORM_URL = "";               // pega aquí tu enlace de Formspree (ver README)
-const ADMIN_USER = "lauren";
-const ADMIN_PASS = "laulau20";   //
+const FORM_URL = "";               // pega aquí tu enlace de Formspree (ver README)   //
 // ============================
 // ====== TEXTOS DE LA PÁGINA (cámbialos aquí) ======
 const SITE = {
