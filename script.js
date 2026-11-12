@@ -7,7 +7,9 @@ $t("barText",SITE.barra);$t("heroTop",SITE.heroArriba);$t("heroTitle",SITE.heroT
 const grid=document.getElementById("grid"),cats=document.getElementById("cats");
 let current="Todos",favs=new Set(),cart=[];
 try{cart=JSON.parse(localStorage.getItem("ss_cart"))||[]}catch(e){}
-try{favs=new Set(JSON.parse(localStorage.getItem("ss_favs"))||[])}catch(e){}
+try{favs=new Set((JSON.parse(localStorage.getItem("ss_favs"))||[]).map(String))}catch(e){}
+// Productos: se muestran los de data.js mientras llegan los del servidor (MongoDB)
+let PRODUCTS=DEFAULT_PRODUCTS.map(p=>({...p,id:String(p.id)}));
 const CATS=[["Todos","🏷️"],["Ropa","👗"],["Zapatos","👠"],["Bolsos","👜"]];
 function card(p){
   return `<article class="card"><div class="ph" data-i="${esc(p.name[0])}"><img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" data-base="${esc(p.img.replace(/(\.[a-z0-9]+)+$/i,""))}" data-n="0" onerror="nx(this)">
@@ -16,21 +18,30 @@ function card(p){
   <button class="btn small" data-add="${p.id}">Añadir al carrito</button></div></article>`;
 }
 function renderCats(){cats.innerHTML=CATS.map(([c,i])=>`<button class="cat ${c===current?"on":""}" data-c="${c}"><span>${i}</span>${c}</button>`).join("")}
-function renderCatalog(){grid.innerHTML=getProducts().filter(p=>current==="Todos"||p.cat===current).map(card).join("")||"<p>Pronto tendremos prendas en esta categoría.</p>";renderCats()}
+function renderCatalog(){grid.innerHTML=PRODUCTS.filter(p=>current==="Todos"||p.cat===current).map(card).join("")||"<p>Pronto tendremos prendas en esta categoría.</p>";renderCats()}
 renderCatalog();
+async function loadProducts(){
+  try{
+    const r=await fetch(API_URL+"/api/products");
+    if(!r.ok)throw new Error();
+    const d=await r.json();
+    if(Array.isArray(d)&&d.length){PRODUCTS=d.map(p=>({...p,id:String(p._id)}));renderCatalog();renderFavs()}
+  }catch(e){/* sin servidor: se quedan los productos de data.js */}
+}
 // Favoritos (se guardan en el navegador de cada persona)
 const favGrid=document.getElementById("favGrid");
 function renderFavs(){
-  const l=getProducts().filter(p=>favs.has(p.id));
+  const l=PRODUCTS.filter(p=>favs.has(p.id));
   favGrid.innerHTML=l.length?l.map(card).join(""):`<p class="empty">Aún no tienes favoritos. Toca el ♡ de cualquier producto y quedará guardado aquí.</p>`;
   document.getElementById("favCount").textContent=l.length;
 }
 renderFavs();
+loadProducts();
 document.addEventListener("click",e=>{
   const c=e.target.closest("[data-c]"),a=e.target.closest("[data-add]"),f=e.target.closest("[data-f]");
   if(c){current=c.dataset.c;renderCatalog();document.getElementById("catalogo").scrollIntoView()}
-  if(a){const p=getProducts().find(x=>x.id==a.dataset.add);if(p){cart.push(p);saveCart();a.textContent="¡Añadido!";setTimeout(()=>a.textContent="Añadir al carrito",1200)}}
-  if(f){const id=+f.dataset.f;favs.has(id)?favs.delete(id):favs.add(id);document.querySelectorAll(`[data-f="${id}"]`).forEach(b=>{b.classList.toggle("on",favs.has(id));b.textContent=favs.has(id)?"♥":"♡"});try{localStorage.setItem("ss_favs",JSON.stringify([...favs]))}catch(err){}renderFavs()}
+  if(a){const p=PRODUCTS.find(x=>x.id===a.dataset.add);if(p){cart.push(p);saveCart();a.textContent="¡Añadido!";setTimeout(()=>a.textContent="Añadir al carrito",1200)}}
+  if(f){const id=f.dataset.f;favs.has(id)?favs.delete(id):favs.add(id);document.querySelectorAll(`[data-f="${id}"]`).forEach(b=>{b.classList.toggle("on",favs.has(id));b.textContent=favs.has(id)?"♥":"♡"});try{localStorage.setItem("ss_favs",JSON.stringify([...favs]))}catch(err){}renderFavs()}
 });
 
 // Carrito
@@ -54,19 +65,22 @@ document.getElementById("styleForm").addEventListener("submit",e=>{
   e.preventDefault();
   const TIPOS={prenda:"Ropa",bolso:"Bolsos",zapato:"Zapatos"};
   const occ=document.getElementById("occ").value,cat=TIPOS[document.getElementById("tipo").value];
-  const r=getProducts().filter(p=>p.tags.includes(occ)&&p.cat===cat);
+  const r=PRODUCTS.filter(p=>p.tags.includes(occ)&&p.cat===cat);
   document.getElementById("recs").innerHTML=r.length?r.map(card).join(""):`<p class="empty">Todavía no tenemos esa combinación en el catálogo. Prueba otra ocasión o escríbenos y te ayudamos.</p>`;
 });
 
-// Contacto
-function guardar(m){const l=getMsgs();l.unshift(m);saveMsgs(l);if(FORM_URL)return fetch(FORM_URL,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(m)})}
+// Contacto: el mensaje se guarda en MongoDB a través del servidor
 const form=document.getElementById("contactForm"),st=document.getElementById("cStatus");
 form.addEventListener("submit",async e=>{
   e.preventDefault();
-  const m={name:cName.value.trim(),contact:cContact.value.trim(),msg:cMsg.value.trim(),date:new Date().toLocaleString("es-CO")};
+  const m={name:cName.value.trim(),contact:cContact.value.trim(),msg:cMsg.value.trim()};
   if(m.name.length<2||!m.contact||m.msg.length<5){st.textContent="Completa nombre, contacto y un mensaje de al menos 5 letras.";return}
-  try{await guardar(m)}catch(err){st.textContent="Guardado, pero no se pudo enviar por correo. Escríbenos por WhatsApp.";return}
-  st.textContent="¡Mensaje enviado! Te respondemos pronto.";form.reset();
+  st.textContent="Enviando...";
+  try{
+    const r=await fetch(API_URL+"/api/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(m)});
+    if(!r.ok)throw new Error();
+    st.textContent="¡Mensaje enviado! Te respondemos pronto.";form.reset();
+  }catch(err){st.textContent="No pudimos enviar el mensaje ahora. Escríbenos por WhatsApp."}
 });
 document.getElementById("wa").href=`https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent("Hola Sofía Store, quiero información")}`;
 
