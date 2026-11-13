@@ -11,6 +11,8 @@ import Nosotros from "./components/Nosotros";
 import Contacto from "./components/Contacto";
 import Footer from "./components/Footer";
 import Carrito from "./components/Carrito";
+import Chatbot from "./components/Chatbot";
+import "./components/Chatbot.css";
 
 // Lee una lista guardada en el navegador (si no hay nada, devuelve lista vacía)
 function leer(clave) {
@@ -106,6 +108,7 @@ export default function App() {
         <Contacto />
       </main>
       <Footer />
+      <Chatbot />
       <Carrito
         abierto={carritoAbierto}
         cerrar={() => setCarritoAbierto(false)}
