@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Product, Message, User } = require("./models");
+const chatRouter = require("./chat");
 
 const app = express();
 
@@ -75,6 +76,9 @@ app.post("/api/login", async (req, res) => {
   const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: "8h" });
   res.json({ token });
 });
+
+// ---------- Chatbot con IA ----------
+app.use("/api/chat", chatRouter);
 
 // ---------- Arranque ----------
 async function start() {
